@@ -2,6 +2,7 @@ require('normalize.css/normalize.css');
 require('styles/App.scss');
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 // let yeomanImage = require('../images/yeoman.png');
 // 获取图片相关数据
@@ -32,6 +33,10 @@ var ImgFigure=React.createClass({
 
 var GaleryByReactApp=React.createClass({
 	areaScale:{
+		CenterPos:{
+			posX:0,
+			posy:0
+		},
 		LeftArea:{
 			posSecX:[0,0],
 			posSecy:[0,0]
@@ -40,10 +45,13 @@ var GaleryByReactApp=React.createClass({
 			posSecX:[0,0],
 			posSecy:[0,0]
 		},
-		topArea:{
+		TopArea:{
 			posSecX:[0,0],
 			posSecy:[0,0]
 		}
+	},
+	componentDidMount:function() {
+		
 	},
 	getInitialState:function() {
 		return {imgArrageArrList:[
@@ -55,18 +63,41 @@ var GaleryByReactApp=React.createClass({
 		]};
 	},
 	componentDidMount:function() {
-		
+		var stageDom=ReactDOM.findDOMNode(this.refs.stage),
+			stageW=stageDom.scrollWidth,
+			stageH=stageDom.scrollHeight,
+			halfStageW=Math.ceil(stageW/2),
+			halfStageH=Math.ceil(stageH/2);
+
+		var imgFigDom=ReactDOM.findDOMNode(this.refs.imgFig0),
+			imgW=imgFigDom.scrollWidth,
+			imgH=imgFigDom.scrollHeight,
+			halfImgW=Math.ceil(imgW/2),
+			halfImgH=Math.ceil(imgH/2);
+
+		//中心图片的位置
+		this.areaScale.CenterPos.posX=halfStageW-halfImgW;
+		this.areaScale.CenterPos.posY=halfStageY-halfImgY;
+
+		//上区域范围
+		this.areaScale.TopArea.posSecX=[halfStageW-imgW,halfStageW];
+		this.areaScale.TopArea.posSecY=[-halfImgH,halfStageH-halfImgH*3];
+		//左区域范围
+		this.areaScale.TopArea.posSecX=[-halfImgW,halfStageW-halfImgW*3];
+		this.areaScale.TopArea.posSecY=[-halfImgH,halfStageH-halfImgH*3];
+		//右区域范围
+
 	},
 	render:function() {
 		var imageUnit=[],
 			controllerUnit=[];
 		console.log(this.state.imgArrageArrList);
 		// 循环images
-		imageDatas.forEach(function(value){
-			imageUnit.push(<ImgFigure data={value} />);
+		imageDatas.forEach(function(value,index){
+			imageUnit.push(<ImgFigure data={value} ref={'imgFig'+index} />);
 		});
 			return (
-				<section className="stage">
+				<section className="stage" ref="stage">
 					<section className="img-sec">
 						{imageUnit}
 					</section>
