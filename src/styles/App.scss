@@ -21,6 +21,28 @@ html,body {
   overflow: hidden;
   height: 100%;width: 100%;
   background-color: #ddd;
+  @at-root{
+    img{
+      width: 240px;height: 280px;
+    }
+    .img-figure{
+      position: absolute;
+      width: 320px;
+      height: 360px;
+      padding: 40px;
+      margin: 0;
+      box-sizing:border-box;
+      background-color: #fff;
+    }
+    figCaption{
+      text-align: center;
+      .img-title{
+        margin:10px 0 0 0;
+        color: #a7a0a2;
+        font-size: 20px;
+      }
+    }
+  }
 }
 // img end
 // controller start

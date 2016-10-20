@@ -16,21 +16,69 @@ imageDatas=(function(imageDatas){
 	return imageDatas;
 })(imageDatas);
 
-class AppComponent extends React.Component {
-  render() {
-    return (
-      <section className="stage">
-      	<section className="img-sec">
-      	</section>
-      	<nav className="controller-nav">
+var ImgFigure=React.createClass({
+	render:function(){
+		return(
+			<figure className="img-figure">
+				<img src={this.props.data.imageURL} 
+				alt={this.props.data.title} />
+				<figCaption>
+					<h2 className="img-title">{this.props.data.title}</h2>
+				</figCaption>
+			</figure>
+		);
+	},
+});
 
-      	</nav>
-      </section>
-    );
-  }
-}
+var GaleryByReactApp=React.createClass({
+	areaScale:{
+		LeftArea:{
+			posSecX:[0,0],
+			posSecy:[0,0]
+		},
+		RightArea:{
+			posSecX:[0,0],
+			posSecy:[0,0]
+		},
+		topArea:{
+			posSecX:[0,0],
+			posSecy:[0,0]
+		}
+	},
+	getInitialState:function() {
+		return {imgArrageArrList:[
+		/* {
+				left:,
+				top:,
+			}
+		*/
+		]};
+	},
+	componentDidMount:function() {
+		
+	},
+	render:function() {
+		var imageUnit=[],
+			controllerUnit=[];
+		console.log(this.state.imgArrageArrList);
+		// 循环images
+		imageDatas.forEach(function(value){
+			imageUnit.push(<ImgFigure data={value} />);
+		});
+			return (
+				<section className="stage">
+					<section className="img-sec">
+						{imageUnit}
+					</section>
+					<nav className="controller-nav">
+						{controllerUnit}
+					</nav>
+				</section>
+	    	);
+	}
+});
 
-AppComponent.defaultProps = {
+GaleryByReactApp.defaultProps = {
 };
 
-export default AppComponent;
+export default GaleryByReactApp;
