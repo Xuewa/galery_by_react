@@ -17,6 +17,7 @@ imageDatas=(function(imageDatas){
 	return imageDatas;
 })(imageDatas);
 
+
 var ImgFigure=React.createClass({
 	render:function(){
 		return(
