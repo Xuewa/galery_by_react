@@ -2,6 +2,7 @@ require('normalize.css/normalize.css');
 require('styles/App.scss');
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 // let yeomanImage = require('../images/yeoman.png');
 // 获取图片相关数据
@@ -16,27 +17,100 @@ imageDatas=(function(imageDatas){
 	return imageDatas;
 })(imageDatas);
 
-var imgFigure=React.createClass({
-  render:function(){
-    :;
-  },
+
+var ImgFigure=React.createClass({
+	render:function(){
+		return(
+			<figure className="img-figure">
+				<img src={this.props.data.imageURL} 
+				alt={this.props.data.title} />
+				<figCaption>
+					<h2 className="img-title">{this.props.data.title}</h2>
+				</figCaption>
+			</figure>
+		);
+	},
 });
 
-class AppComponent extends React.Component {
-  render() {
-    return (
-      <section className="stage">
-      	<section className="img-sec">
-      	</section>
-      	<nav className="controller-nav">
+var GaleryByReactApp=React.createClass({
+	areaScale:{
+		CenterPos:{
+			posX:0,
+			posy:0
+		},
+		LeftArea:{
+			posSecX:[0,0],
+			posSecy:[0,0]
+		},
+		RightArea:{
+			posSecX:[0,0],
+			posSecy:[0,0]
+		},
+		TopArea:{
+			posSecX:[0,0],
+			posSecy:[0,0]
+		}
+	},
+	componentDidMount:function() {
+		
+	},
+	getInitialState:function() {
+		return {imgArrageArrList:[
+		/* {
+				left:,
+				top:,
+			}
+		*/
+		]};
+	},
+	componentDidMount:function() {
+		var stageDom=ReactDOM.findDOMNode(this.refs.stage),
+			stageW=stageDom.scrollWidth,
+			stageH=stageDom.scrollHeight,
+			halfStageW=Math.ceil(stageW/2),
+			halfStageH=Math.ceil(stageH/2);
 
-      	</nav>
-      </section>
-    );
-  }
-}
+		var imgFigDom=ReactDOM.findDOMNode(this.refs.imgFig0),
+			imgW=imgFigDom.scrollWidth,
+			imgH=imgFigDom.scrollHeight,
+			halfImgW=Math.ceil(imgW/2),
+			halfImgH=Math.ceil(imgH/2);
 
-AppComponent.defaultProps = {
+		//中心图片的位置
+		this.areaScale.CenterPos.posX=halfStageW-halfImgW;
+		this.areaScale.CenterPos.posY=halfStageY-halfImgY;
+
+		//上区域范围
+		this.areaScale.TopArea.posSecX=[halfStageW-imgW,halfStageW];
+		this.areaScale.TopArea.posSecY=[-halfImgH,halfStageH-halfImgH*3];
+		//左区域范围
+		this.areaScale.TopArea.posSecX=[-halfImgW,halfStageW-halfImgW*3];
+		this.areaScale.TopArea.posSecY=[-halfImgH,halfStageH-halfImgH*3];
+		//右区域范围
+
+	},
+	render:function() {
+		var imageUnit=[],
+			controllerUnit=[];
+		console.log(this.state.imgArrageArrList);
+		// 循环images
+		imageDatas.forEach(function(value,index){
+			imageUnit.push(<ImgFigure data={value} ref={'imgFig'+index} />);
+		});
+			return (
+				<section className="stage" ref="stage">
+					<section className="img-sec">
+						{imageUnit}
+					</section>
+					<nav className="controller-nav">
+						{controllerUnit}
+					</nav>
+				</section>
+	    	);
+	}
+});
+
+GaleryByReactApp.defaultProps = {
 };
 
-export default AppComponent;
+export default GaleryByReactApp;
