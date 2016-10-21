@@ -16,6 +16,12 @@ imageDatas=(function(imageDatas){
 	return imageDatas;
 })(imageDatas);
 
+var imgFigure=React.createClass({
+  render:function(){
+    :;
+  },
+});
+
 class AppComponent extends React.Component {
   render() {
     return (
