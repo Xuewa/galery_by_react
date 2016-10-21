@@ -50,8 +50,15 @@ var GaleryByReactApp=React.createClass({
 			posSecy:[0,0]
 		}
 	},
-	componentDidMount:function() {
-		
+	reArrageArrFunc:function(centerIndex){
+		var 
+		var arrangeArr=[];
+		// 中心区域
+		if(arrangeArr[centerIndex]) arrangeArr[centerIndex]=this.areaScale.CenterPos;
+		//上区域
+		//	随机获取0-1个点
+		var topNum=Math.ceil(Math.random()*2);
+
 	},
 	getInitialState:function() {
 		return {imgArrageArrList:[
@@ -84,9 +91,12 @@ var GaleryByReactApp=React.createClass({
 		this.areaScale.TopArea.posSecY=[-halfImgH,halfStageH-halfImgH*3];
 		//左区域范围
 		this.areaScale.TopArea.posSecX=[-halfImgW,halfStageW-halfImgW*3];
-		this.areaScale.TopArea.posSecY=[-halfImgH,halfStageH-halfImgH*3];
+		this.areaScale.TopArea.posSecY=[-halfImgH,stageH-halfImgH];
 		//右区域范围
+		this.areaScale.TopArea.posSecX=[halfStageW+halfImgW,stageW-halfImgW];
+		this.areaScale.TopArea.posSecY=[-halfImgH,stageH-halfImgH];
 
+		this.reArrageArrFunc(0);
 	},
 	render:function() {
 		var imageUnit=[],
