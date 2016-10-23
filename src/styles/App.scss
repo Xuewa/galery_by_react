@@ -21,6 +21,7 @@ html,body {
   overflow: hidden;
   height: 100%;width: 100%;
   background-color: #ddd;
+  perspective: 1800px;
   @at-root{
     img{
       width: 240px;height: 280px;
@@ -33,6 +34,14 @@ html,body {
       margin: 0;
       box-sizing:border-box;
       background-color: #fff;
+      cursor: pointer;
+      transform-origin: 0 50% 0;
+      transform-style: preserve-3d;
+      transition:transform .6s ease-in-out,left .6s ease-in-out,top .6s ease-in-out;
+      // transform:rotateY(0) translateZ(0);
+      &.isInverse{
+        transform: translate(320px) rotateY(180deg);
+      }
     }
     figCaption{
       text-align: center;
@@ -40,6 +49,21 @@ html,body {
         margin:10px 0 0 0;
         color: #a7a0a2;
         font-size: 20px;
+      }
+       .img-desc{
+        position: absolute;
+        width: 100%;height: 100%;
+        box-sizing: border-box; 
+        color: #a7a0a2;
+        font-size: 20px;
+        top: 0;left: 0;
+        text-align: center;
+        padding: 40px;
+        background-color: #fff;
+        //3d inverse base
+        backface-visibility:hidden;
+        transform-style: preserve-3d;
+        transform: rotateY(180deg) translateZ(1px);
       }
     }
   }
@@ -52,6 +76,33 @@ html,body {
   z-index: 101;
   width: 100%;
   text-align: center;
+  @at-root{
+    .controllerBtn{
+      display: inline-block;
+      width: 30px;height: 30px;
+      margin-right: 10px;
+      background-color: #aaa;
+      border-radius: 50%;
+      transition:transform .6s linear;
+      transform-origin:0 50% 0;
+      transform:scale(.5);
+      &.centerBtn{
+        transform:scale(1) translate(-7.5px);
+        background-color: #999;
+        background-image: url('/images/icon/leftUp.png');
+        background-repeat: no-repeat;
+         &:before{
+            content: '';display: block;
+
+         }
+        &.inverseBtn{
+          transform-style: preserve-3d;
+          transform:rotateY(180deg) translate(-22.5px);
+
+        }
+      }
+    }
+  }
 }
 // controller end
 

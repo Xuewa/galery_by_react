@@ -3,7 +3,9 @@ require('styles/App.scss');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import ImgFigure from '../ImgFigure';
+import ImgFigure from './ImgFigure';
+import ControllerUnit from './ControllerUnit';
+
 
 // let yeomanImage = require('../images/yeoman.png');
 // 获取图片相关数据
@@ -19,24 +21,6 @@ imageDatas=(function(imageDatas){
 })(imageDatas);
 
 
-var ImgFigure=React.createClass({
-	render:function(){
-		var styleObj=this.props.arrange.pos;
-		var prefixArr=['mos','os','Webkit'];
-		prefixArr.forEach(function(value){
-			styleObj[value+'Transform']='rotate('+this.props.arrange.rotate+')';
-		}.bind(this));
-		console.log(styleObj);
-		return(
-			<figure className="img-figure" style={styleObj}>
-				<img src={this.props.data.imageURL} alt={this.props.data.title} />
-				<figCaption>
-					<h2 className="img-title">{this.props.data.title}</h2>
-				</figCaption>
-			</figure>
-		);
-	},
-});
 
 var GaleryByReactApp=React.createClass({
 	areaScale:{
@@ -62,73 +46,102 @@ var GaleryByReactApp=React.createClass({
 		return randValue;
 	},
 	getRandomRotateDeg:function(){
-		var flag=Math.ceil(Math.random()>0.5?'-':'');
+		var flag=Math.random()>0.5?'-':'';
 		return flag+this.getRandomValue(0,30);
 	},
+	/**
+	 * [getInverseFunc 返回翻转函数]
+	 * @return {[Function]} 
+	 * */
+	getInverseFunc:function(index){
+		return function(){
+			var imgArrageArrList=this.state.imgArrageArrList;
+			imgArrageArrList[index].isInverse=
+			!imgArrageArrList[index].isInverse;
+			this.setState({
+				imgArrageArrList:imgArrageArrList
+			});
+			
+		}.bind(this);
+	},
+	/**
+	 * [getCenterFunc 重排列中间img]
+	 * @return {[Function]} 
+	 * */
+	getCenterFunc:function(index){
+		return function(){
+			this.reArrageArrFunc(index);
+		}.bind(this);
+	},
 	reArrageArrFunc:function(centerIndex){
-		// var _this=this;
-		var arrangeArr=[],
+		var arrangeArr=this.state.imgArrageArrList,
 			topArr=[],
 			leftArr=[],
 			rightArr=[],
 			centerArr=[];
+		console.log(centerIndex);
 		// 中心区域
-		if(this.state.imgArrageArrList[centerIndex]) 
-			centerArr=this.state.imgArrageArrList.splice(centerIndex,1);
+		if(arrangeArr[centerIndex]) 
+			centerArr=arrangeArr.splice(centerIndex,1);
 		centerArr[0].pos=this.areaScale.CenterPos;
-		centerArr[0].rotate+='deg';
-		// console.log(centerArr);
+		centerArr[0].rotate=0;
+		centerArr[0].isCenter=true;
+		console.log(centerArr);
 		//上区域
 		//	随机获取0-2个点
-		var topNum=Math.ceil(Math.random()*2);
-		topArr=this.state.imgArrageArrList.splice(centerIndex,topNum);
+		var topNum=Math.floor(Math.random()*2);
+		topArr=arrangeArr.splice(centerIndex,topNum);
 		topArr.forEach(function(arrItem,index){
 			var _left=this.getRandomValue(this.areaScale.TopArea.posSecX[0],this.areaScale.TopArea.posSecX[1]);
 			var _top=this.getRandomValue(this.areaScale.TopArea.posSecY[0],this.areaScale.TopArea.posSecY[1]);
 			topArr[index]={
 				pos:{
 					top:_top+'px',
-					left:_left+'px'
+					left:_left+'px',
+					zIndex:10
 				},
-				rotate:this.getRandomRotateDeg()+'deg'
+				rotate:this.getRandomRotateDeg(),
+				isCenter:false	
 			}
 		}.bind(this));
+		// console.log(topArr);
+		// 左区域+右区域
+		var leftNum=Math.ceil(arrangeArr.length/2);
+		for (var i =0;i<= arrangeArr.length - 1; i++) {
+			//left
+			if(i<leftNum) {
+				var _left=this.getRandomValue(this.areaScale.LeftArea.posSecX[0],this.areaScale.LeftArea.posSecX[1]);
+				var _top=this.getRandomValue(this.areaScale.LeftArea.posSecY[0],this.areaScale.LeftArea.posSecY[1]);
+				arrangeArr[i]={
+					pos:{
+						top:_top+'px',
+						left:_left+'px',
+						zIndex:10
+					},
+					rotate:this.getRandomRotateDeg(),
+					isCenter:false	
+				}
+			}else{
+				var _left=this.getRandomValue(this.areaScale.RightArea.posSecX[0],this.areaScale.RightArea.posSecX[1]);
+				var _top=this.getRandomValue(this.areaScale.RightArea.posSecY[0],this.areaScale.RightArea.posSecY[1]);
+				arrangeArr[i]={
+					pos:{
+						top:_top+'px',
+						left:_left+'px',
+						zIndex:10
+					},
+					rotate:this.getRandomRotateDeg(),
+					isCenter:false	
+				}
 
-		// 左区域
-		var len=this.state.imgArrageArrList.length;
-		leftArr=this.state.imgArrageArrList.splice(0,Math.ceil(len/2));
-		leftArr.forEach(function(arrItem,index){
-			console.log(this.areaScale.LeftArea.posSecX[0]+'--'+this.areaScale.LeftArea.posSecX[1]);
-			var _left=this.getRandomValue(this.areaScale.LeftArea.posSecX[0],this.areaScale.LeftArea.posSecX[1]);
-			var _top=this.getRandomValue(this.areaScale.LeftArea.posSecY[0],this.areaScale.LeftArea.posSecY[1]);
-			// console.log(_top+'--'+_left);
-			leftArr[index]={
-				pos:{
-					top:_top+'px',
-					left:_left+'px'
-				},
-				rotate:this.getRandomRotateDeg()+'deg'
 			}
-		}.bind(this));
+		};
 
-		// 右区域
-		len=this.state.imgArrageArrList.length;
-		// console.log(len);
-		rightArr=this.state.imgArrageArrList.splice(0,len);
-		rightArr.forEach(function(arrItem,index){
-			var _left=this.getRandomValue(this.areaScale.RightArea.posSecX[0],this.areaScale.RightArea.posSecX[1]);
-			var _top=this.getRandomValue(this.areaScale.RightArea.posSecY[0],this.areaScale.RightArea.posSecY[1]);
-			rightArr[index]={
-				pos:{
-					top:_top+'px',
-					left:_left+'px'
-				},
-				rotate:this.getRandomRotateDeg()+'deg'
-			}
-		}.bind(this));
-
-		arrangeArr=arrangeArr.concat(centerArr,topArr,leftArr,rightArr);
-		// console.log(arrangeArr.pos);
+		if(topNum>0){
+			arrangeArr.splice(centerIndex,0,topArr[0]);
+		}
+		// 中间区域一定最后加
+		arrangeArr.splice(centerIndex,0,centerArr[0]);
 		this.setState({
 			imgArrageArrList:arrangeArr
 		});
@@ -141,7 +154,9 @@ var GaleryByReactApp=React.createClass({
 				top:,
 				}
 			},
-			rotate:0deg
+			rotate:0deg,//旋转角度
+			isInverse:false,//是否翻转
+			isCenter:false //是否中心
 		*/
 		]};
 	},
@@ -178,8 +193,7 @@ var GaleryByReactApp=React.createClass({
 	render:function() {
 		var imageUnit=[],
 			controllerUnit=[];
-
-		console.log(this.state.imgArrageArrList);
+		
 		// 循环images
 		imageDatas.forEach(function(value,index){
 			if(!this.state.imgArrageArrList[index])
@@ -189,12 +203,21 @@ var GaleryByReactApp=React.createClass({
 						left:0,
 						top:0
 					},
-					rotate:0
+					rotate:0,
+					isInverse:false,
+					isCenter:false
 				};
 			imageUnit.push(<ImgFigure data={value} 
-				arrange={this.state.imgArrageArrList[index]} ref={'imgFig'+index} />);
+				centerFunc={this.getCenterFunc(index)}
+				inverseFunc={this.getInverseFunc(index)}
+				arrange={this.state.imgArrageArrList[index]} 
+				ref={'imgFig'+index} />);
+			controllerUnit.push(<ControllerUnit 
+				arrange={this.state.imgArrageArrList[index]} 
+				centerFunc={this.getCenterFunc(index)}
+				inverseFunc={this.getInverseFunc(index)}
+				ref={'controllerUnit'+index} />);
 		}.bind(this));
-
 			return (
 				<section className="stage" ref="stage">
 					<section className="img-sec">
