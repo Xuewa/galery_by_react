@@ -41,6 +41,8 @@ html,body {
       // transform:rotateY(0) translateZ(0);
       &.isInverse{
         transform: translate(320px) rotateY(180deg);
+        -webkit-transform: translate(320px) rotateY(180deg);
+
       }
     }
     figCaption{
@@ -63,8 +65,11 @@ html,body {
         //3d inverse base
         backface-visibility:hidden;
         transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
         transform: rotateY(180deg) translateZ(1px);
-      }
+        -webkit-transform: rotateY(180deg) translateZ(1px);
+
+       }
     }
   }
 }
