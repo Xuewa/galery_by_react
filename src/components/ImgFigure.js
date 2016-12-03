@@ -16,7 +16,7 @@ var ImgFigure=React.createClass({
 		if(this.props.arrange.rotate){
 			var prefixArr=['O','Moz','os','Webkit'];
 			prefixArr.forEach(function(value){
-				styleObj[value+'Transform']='rotate('+this.props.arrange.rotate+'deg)';
+				styleObj[value+'Transform']='translateZ(-200px) rotate('+this.props.arrange.rotate+'deg)';
 			}.bind(this));
 		}
 		if(this.props.arrange.isCenter)	styleObj['zIndex']=11;
