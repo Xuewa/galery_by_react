@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/cfg/base.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cfg/defaults.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/server.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/components/ImgFigureTest.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/components/PathEle.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/components/VectorWidget.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/index.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/styles/App.scss" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webpack.config.js" charset="UTF-8" />
   </component>

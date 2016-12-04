@@ -51,7 +51,7 @@ var GaleryByReactApp=React.createClass({
 	},
 	/**
 	 * [getInverseFunc 返回翻转函数]
-	 * @return {[Function]} 
+	 * @return {[Function]}
 	 * */
 	getInverseFunc:function(index){
 		return function(){
@@ -61,12 +61,12 @@ var GaleryByReactApp=React.createClass({
 			this.setState({
 				imgArrageArrList:imgArrageArrList
 			});
-			
+
 		}.bind(this);
 	},
 	/**
 	 * [getCenterFunc 重排列中间img]
-	 * @return {[Function]} 
+	 * @return {[Function]}
 	 * */
 	getCenterFunc:function(index){
 		return function(){
@@ -81,7 +81,7 @@ var GaleryByReactApp=React.createClass({
 			centerArr=[];
 		console.log(centerIndex);
 		// 中心区域
-		if(arrangeArr[centerIndex]) 
+		if(arrangeArr[centerIndex])
 			centerArr=arrangeArr.splice(centerIndex,1);
 		centerArr[0].pos=this.areaScale.CenterPos;
 		centerArr[0].rotate=0;
@@ -101,7 +101,7 @@ var GaleryByReactApp=React.createClass({
 					zIndex:10
 				},
 				rotate:this.getRandomRotateDeg(),
-				isCenter:false	
+				isCenter:false
 			}
 		}.bind(this));
 		// console.log(topArr);
@@ -119,7 +119,7 @@ var GaleryByReactApp=React.createClass({
 						zIndex:10
 					},
 					rotate:this.getRandomRotateDeg(),
-					isCenter:false	
+					isCenter:false
 				}
 			}else{
 				var _left=this.getRandomValue(this.areaScale.RightArea.posSecX[0],this.areaScale.RightArea.posSecX[1]);
@@ -131,7 +131,7 @@ var GaleryByReactApp=React.createClass({
 						zIndex:10
 					},
 					rotate:this.getRandomRotateDeg(),
-					isCenter:false	
+					isCenter:false
 				}
 
 			}
@@ -193,7 +193,7 @@ var GaleryByReactApp=React.createClass({
 	render:function() {
 		var imageUnit=[],
 			controllerUnit=[];
-		
+
 		// 循环images
 		imageDatas.forEach(function(value,index){
 			if(!this.state.imgArrageArrList[index])
@@ -207,13 +207,13 @@ var GaleryByReactApp=React.createClass({
 					isInverse:false,
 					isCenter:false
 				};
-			imageUnit.push(<ImgFigure data={value} 
+			imageUnit.push(<ImgFigure data={value}
 				centerFunc={this.getCenterFunc(index)}
 				inverseFunc={this.getInverseFunc(index)}
-				arrange={this.state.imgArrageArrList[index]} 
+				arrange={this.state.imgArrageArrList[index]}
 				ref={'imgFig'+index} />);
-			controllerUnit.push(<ControllerUnit 
-				arrange={this.state.imgArrageArrList[index]} 
+			controllerUnit.push(<ControllerUnit
+				arrange={this.state.imgArrageArrList[index]}
 				centerFunc={this.getCenterFunc(index)}
 				inverseFunc={this.getInverseFunc(index)}
 				ref={'controllerUnit'+index} />);
@@ -226,6 +226,7 @@ var GaleryByReactApp=React.createClass({
 					<nav className="controller-nav">
 						{controllerUnit}
 					</nav>
+
 				</section>
 	    	);
 	}
