@@ -13,6 +13,8 @@ var ReactART = require('react-art');
 var Circle = require('react-art/lib/Circle.art');
 var Group = ReactART.Group;
 var Shape = ReactART.Shape;
+var Path = ReactART.Path;
+
 var Surface = ReactART.Surface;
 var Transform = ReactART.Transform;
 
@@ -74,6 +76,11 @@ var VectorWidget = React.createClass({
    * describe the structure of your UI component at *any* point in time.
    */
   render: function() {
+    var radius=15;
+    var path = Path().moveTo(45, 30)
+      .arc(0, radius * 2, radius)
+      .arc(0, radius * -2, radius)
+      .close();
     return (
       <Surface
         width={110}
@@ -81,6 +88,8 @@ var VectorWidget = React.createClass({
         style={{cursor: 'pointer',backgroundColor:'rgba(255, 255, 255, 0)',
                 position:'absolute',top:0,right:10}}>
         {this.renderGraphic(this.state.degrees)}
+        <Shape d={path} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3} transform={new Transform().translate(10, 10)}/>
+
       </Surface>
     );
   },
