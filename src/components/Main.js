@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ImgFigure from './ImgFigure';
 import ControllerUnit from './ControllerUnit';
-import VectorWidget from './VectorWidget';
+import Player from './Player';
 
 
 // let yeomanImage = require('../images/yeoman.png');
@@ -227,8 +227,9 @@ var GaleryByReactApp=React.createClass({
 					<nav className="controller-nav">
 						{controllerUnit}
 					</nav>
-          <VectorWidget />
-				</section>
+          <Player />
+
+        </section>
 	    	);
 	}
 });

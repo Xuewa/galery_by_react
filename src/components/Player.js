@@ -27,7 +27,7 @@ var BASE_VEL = 0.15;
 /**
  * An animated SVG component.
  */
-var VectorWidget = React.createClass({
+var Player = React.createClass({
   /**
    * Initialize state members.
    */
@@ -77,20 +77,41 @@ var VectorWidget = React.createClass({
    */
   render: function() {
     var radius=15;
-    var path = Path().moveTo(45, 30)
-      .arc(0, radius * 2, radius)
-      .arc(0, radius * -2, radius)
-      .close();
+    var pathA = Path().moveTo(60, 45)
+      .lineTo(35, 30).lineTo(35, 60).close();
+    var pathB=Path().moveTo(40,30).lineTo(40,60)
+      .lineTo(35,60).lineTo(35,30).close();
+    var pathC=Path().moveTo(55,30).lineTo(55,60)
+      .lineTo(50,60).lineTo(50,30).close();
+    var rotation=this.state.degrees;
     return (
-      <Surface
-        width={110}
-        height={110}
-        style={{cursor: 'pointer',backgroundColor:'rgba(255, 255, 255, 0)',
-                position:'absolute',top:0,right:10}}>
-        {this.renderGraphic(this.state.degrees)}
-        <Shape d={path} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3} transform={new Transform().translate(10, 10)}/>
-
-      </Surface>
+      <section className="mp3Player">
+        <Surface  className="pauseStatus" width={90}  height={90}  style={{cursor: 'pointer',backgroundColor:'rgba(255, 255, 255, 0)',
+                  position:'absolute',top:0,right:10,display:'none'}}
+                  onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp}>
+          <Group>
+            <Circle radius={40} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,0.5);"
+                    transform={new Transform().translate(45, 45)} />
+            <Group>
+              <Shape d={pathA} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3} />
+            </Group>
+          </Group>
+        </Surface>
+        <Surface  className="playStatus" width={90}  height={90}  style={{cursor: 'pointer',backgroundColor:'rgba(255, 255, 255, 0)',
+                  position:'absolute',top:0,right:10}}
+                  onMouseDown={this.handleMouseDown}  onMouseUp={this.handleMouseUp}>
+          <Group  rotation={rotation} originX={45} originY={45}>
+            <Circle radius={40} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,.5);"
+                  transform={new Transform().translate(45, 45)} />
+            <Group>
+              <Shape d={pathB} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3} />
+              <Shape d={pathC} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3}/>
+            </Group>
+          </Group>
+        </Surface>
+      <audio autoPlay="autoPlay" loop="loop"
+               src="http://7xkinp.com1.z0.glb.clouddn.com/%E6%9B%B2%E5%A9%89%E5%A9%B7%20-%20Everything%20In%20The%20World.mp3"/>
+      </section>
     );
   },
 
@@ -99,12 +120,13 @@ var VectorWidget = React.createClass({
    */
   renderGraphic: function(rotation) {
     return (
-        <Circle radius={50} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,.5);"
-                transform={new Transform().translate(55, 55)} />
+        <Circle rotation={rotation} originX={45} originY={45}
+                radius={40} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,.5);"
+                transform={new Transform().translate(45, 45)} />
     );
   }
 });
 
 
-module.exports = VectorWidget;
+module.exports = Player;
 
