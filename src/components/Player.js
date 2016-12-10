@@ -18,11 +18,9 @@ var Path = ReactART.Path;
 var Surface = ReactART.Surface;
 var Transform = ReactART.Transform;
 
-var MOUSE_UP_DRAG = 0.978;
-var MOUSE_DOWN_DRAG = 0.9;
-var MAX_VEL = 11;
-var CLICK_ACCEL = 3;
 var BASE_VEL = 0.15;
+var NOW_IS_PLAY=true;
+var NOW_IS_PAUSE=false;
 
 /**
  * An animated SVG component.
@@ -32,7 +30,7 @@ var Player = React.createClass({
    * Initialize state members.
    */
   getInitialState: function() {
-    return {degrees: 0, velocity: 0, drag: MOUSE_UP_DRAG};
+    return {degrees: 0,playerStatus:NOW_IS_PLAY};
   },
 
   /**
@@ -51,24 +49,26 @@ var Player = React.createClass({
   },
 
   onTick: function() {
-    var nextDegrees = this.state.degrees + BASE_VEL + this.state.velocity;
-    var nextVelocity = this.state.velocity * this.state.drag;
-    this.setState({degrees: nextDegrees, velocity: nextVelocity});
+    var nextDegrees = this.state.degrees + BASE_VEL ;
+    this.setState({degrees: nextDegrees});
   },
 
   /**
    * When mousing down, we increase the friction down the velocity.
    */
   handleMouseDown: function() {
-    this.setState({drag: MOUSE_DOWN_DRAG});
+    this.setState({});
   },
 
   /**
    * Cause the rotation to "spring".
    */
   handleMouseUp: function() {
-    var nextVelocity = Math.min(this.state.velocity + CLICK_ACCEL, MAX_VEL);
-    this.setState({velocity: nextVelocity, drag: MOUSE_UP_DRAG});
+    var sta=!this.state.playerStatus;
+    this.setState({playerStatus:sta });
+    if(this.state.playerStatus==NOW_IS_PAUSE) this.refs.audio.pause();
+    else if(this.state.playerStatus==NOW_IS_PLAY) this.refs.audio.play();
+
   },
 
   /**
@@ -76,54 +76,60 @@ var Player = React.createClass({
    * describe the structure of your UI component at *any* point in time.
    */
   render: function() {
-    var radius=15;
-    var pathA = Path().moveTo(60, 45)
-      .lineTo(35, 30).lineTo(35, 60).close();
-    var pathB=Path().moveTo(40,30).lineTo(40,60)
-      .lineTo(35,60).lineTo(35,30).close();
-    var pathC=Path().moveTo(55,30).lineTo(55,60)
-      .lineTo(50,60).lineTo(50,30).close();
     var rotation=this.state.degrees;
-    return (
+    if(this.state.playerStatus==NOW_IS_PLAY) {
+      return(
       <section className="mp3Player">
-        <Surface  className="pauseStatus" width={90}  height={90}  style={{cursor: 'pointer',backgroundColor:'rgba(255, 255, 255, 0)',
-                  position:'absolute',top:0,right:10,display:'none'}}
-                  onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp}>
-          <Group>
-            <Circle radius={40} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,0.5);"
-                    transform={new Transform().translate(45, 45)} />
-            <Group>
-              <Shape d={pathA} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3} />
-            </Group>
-          </Group>
-        </Surface>
-        <Surface  className="playStatus" width={90}  height={90}  style={{cursor: 'pointer',backgroundColor:'rgba(255, 255, 255, 0)',
-                  position:'absolute',top:0,right:10}}
-                  onMouseDown={this.handleMouseDown}  onMouseUp={this.handleMouseUp}>
-          <Group  rotation={rotation} originX={45} originY={45}>
-            <Circle radius={40} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,.5);"
-                  transform={new Transform().translate(45, 45)} />
-            <Group>
-              <Shape d={pathB} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3} />
-              <Shape d={pathC} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3}/>
-            </Group>
-          </Group>
-        </Surface>
-      <audio autoPlay="autoPlay" loop="loop"
+        {this.renderPlayerSurf(rotation)}
+        <audio ref="audio" autoPlay="autoPlay" loop="loop"
                src="http://7xkinp.com1.z0.glb.clouddn.com/%E6%9B%B2%E5%A9%89%E5%A9%B7%20-%20Everything%20In%20The%20World.mp3"/>
       </section>
-    );
+    )}else{
+      return (
+        <section className="mp3Player">
+          {this.renderPauseSurf(rotation)}
+          <audio ref="audio" autoPlay="autoPlay" loop="loop"
+                 src="http://7xkinp.com1.z0.glb.clouddn.com/%E6%9B%B2%E5%A9%89%E5%A9%B7%20-%20Everything%20In%20The%20World.mp3"/>
+        </section>
+      );
+    }
   },
 
   /**
    * Better SVG support for React coming soon.
    */
-  renderGraphic: function(rotation) {
+  renderPlayerSurf: function(rotation) {
+    var pathB=Path().moveTo(40,30).lineTo(40,60)
+      .lineTo(35,60).lineTo(35,30).close();
+    var pathC=Path().moveTo(55,30).lineTo(55,60)
+      .lineTo(50,60).lineTo(50,30).close();
     return (
-        <Circle rotation={rotation} originX={45} originY={45}
-                radius={40} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,.5);"
-                transform={new Transform().translate(45, 45)} />
-    );
+      <Surface className="playStatus" width={90}  height={90}  style={{cursor: 'pointer',backgroundColor:'rgba(255, 255, 255, 0)',
+                  position:'absolute',top:0,right:10}}>
+        <Group  onMouseUp={this.handleMouseUp} rotation={rotation} originX={45} originY={45}>
+          <Circle radius={40} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,.5);"
+                  transform={new Transform().translate(45, 45)} />
+          <Group>
+            <Shape d={pathB} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3} />
+            <Shape d={pathC} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3}/>
+          </Group>
+        </Group>
+      </Surface>);
+  },
+  renderPauseSurf: function(stopRotation) {
+    var pathA = Path().moveTo(60, 45)
+      .lineTo(35, 30).lineTo(35, 60).close();
+    return (
+      <Surface  className="pauseStatus" width={90}  height={90}  style={{cursor: 'pointer',backgroundColor:'rgba(255, 255, 255, 0)',
+                  position:'absolute',top:0,right:10}}>
+        <Group  onMouseUp={this.handleMouseUp} rotation={stopRotation} originX={45} originY={45}>
+          <Circle radius={40} stroke="rgb(227, 159, 146);" strokeWidth={3} fill="rgb(227, 159, 146,0.5);"
+                  transform={new Transform().translate(45, 45)} />
+          <Group>
+            <Shape d={pathA} stroke="rgb(227, 159, 146);" fill="rgb(227, 159, 146);" strokeWidth={3} />
+          </Group>
+        </Group>
+      </Surface> );
   }
 });
 
