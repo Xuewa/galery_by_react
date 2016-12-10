@@ -49,15 +49,10 @@ var Player = React.createClass({
   },
 
   onTick: function() {
-    var nextDegrees = this.state.degrees + BASE_VEL ;
-    this.setState({degrees: nextDegrees});
-  },
-
-  /**
-   * When mousing down, we increase the friction down the velocity.
-   */
-  handleMouseDown: function() {
-    this.setState({});
+    if(this.state.playerStatus==NOW_IS_PLAY){
+      var nextDegrees = this.state.degrees + BASE_VEL ;
+      this.setState({degrees: nextDegrees});
+    }
   },
 
   /**
