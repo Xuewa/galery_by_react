@@ -7,7 +7,7 @@ This project is based on the [class](http://www.imooc.com/qa/507/t/1?page=1) of 
  Welcome to click [here](http://galeryphotos.duapp.com/) to have a look.<br/>
  想看效果，请点击[这里](http://galeryphotos.duapp.com/)。<br/>
  Thanks [Materliu](https://github.com/materliu)] and  [imooc](http://www.imooc.com/).<br/>
- 在此感谢[Materliu老师](https://github.com/materliu)和[慕课网](http://www.imooc.com/)。<br/>
+ 在此感谢[Materliu老师](https://github.com/materliu)和[慕课网](http://www.imooc.com/)。
  #### 2.difference 修改
  The version ```generator-react-webpack``` used in class is old.It uses grunt.<br/>
  原课程中的生成器```generator-react-webapck```使用的是grunt,<br/>
@@ -19,7 +19,7 @@ This project is based on the [class](http://www.imooc.com/qa/507/t/1?page=1) of 
  gulp+webpack:to manage the modules of the project.<br/>
  gulp+webpack：项目打包管理工具；<br/>
  react:uses virtualDom to make page rendering more efficient.<br/>
- react：virtualDom加速页面渲染；<br/>
+ react：virtualDom加速页面渲染；
  #### 4.Installation 安装
  ```
  git clone https://github.com/Xuewa/galery_by_react.git
@@ -29,7 +29,7 @@ This project is based on the [class](http://www.imooc.com/qa/507/t/1?page=1) of 
  Your browser to open ```http://localhost:8000/webpack-dev-server/```
  浏览器打开```http://localhost:8000/webpack-dev-server/```
  More command,U can click [generator-react-webapck](https://github.com/react-webpack-generators/generator-react-webpack#readme)<br/>
- 更多指令参考[generator-react-webapck](https://github.com/react-webpack-generators/generator-react-webpack#readme).<br/>
+ 更多指令参考[generator-react-webapck](https://github.com/react-webpack-generators/generator-react-webpack#readme).
  #### 5.项目代码过程
  - 2016.10.19 use yeomen to build the framkwork.<br/>
    2016.10.19使用yeomen完成脚手架的搭建；<br/>
@@ -44,7 +44,7 @@ This project is based on the [class](http://www.imooc.com/qa/507/t/1?page=1) of 
  - 2016.12.10musicPlayer is added.<br/>
    2016.12.10音乐播放器编写完成<br/>
  - 2016.12.11write readMe.md<br/>
- - 2016.12.11编写readMe.md<br/>
+ - 2016.12.11编写readMe.md
  
  #### 6.Others 其他
   Star me......More important,don't hesitate to contact me,if U find any bug or question.<br/>
